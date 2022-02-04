@@ -21,6 +21,60 @@ namespace TeachersFacture.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("TeachersFacture.Models.Course", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Course");
+                });
+
+            modelBuilder.Entity("TeachersFacture.Models.Lesson", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Cost")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CourseIdId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Date")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DictatedHours")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TeacherIdId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseIdId");
+
+                    b.HasIndex("TeacherIdId");
+
+                    b.ToTable("Lesson");
+                });
+
             modelBuilder.Entity("TeachersFacture.Models.Rol", b =>
                 {
                     b.Property<int>("Id")
@@ -79,6 +133,25 @@ namespace TeachersFacture.Migrations
                     b.ToTable("TeachersInfo");
                 });
 
+            modelBuilder.Entity("TeachersFacture.Models.Lesson", b =>
+                {
+                    b.HasOne("TeachersFacture.Models.Course", "CourseId")
+                        .WithMany("Lessons")
+                        .HasForeignKey("CourseIdId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TeachersFacture.Models.Teacher", "TeacherId")
+                        .WithMany("Lessons")
+                        .HasForeignKey("TeacherIdId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CourseId");
+
+                    b.Navigation("TeacherId");
+                });
+
             modelBuilder.Entity("TeachersFacture.Models.Teacher", b =>
                 {
                     b.HasOne("TeachersFacture.Models.Rol", null)
@@ -88,9 +161,19 @@ namespace TeachersFacture.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TeachersFacture.Models.Course", b =>
+                {
+                    b.Navigation("Lessons");
+                });
+
             modelBuilder.Entity("TeachersFacture.Models.Rol", b =>
                 {
                     b.Navigation("Teachers");
+                });
+
+            modelBuilder.Entity("TeachersFacture.Models.Teacher", b =>
+                {
+                    b.Navigation("Lessons");
                 });
 #pragma warning restore 612, 618
         }

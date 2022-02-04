@@ -1,5 +1,8 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using TeachersFacture;
 using TeachersFacture.DataContexts;
+using TeachersFacture.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +16,13 @@ builder.Services.AddSwaggerGen();
 
 var connectionString = builder.Configuration.GetConnectionString("ConexionTest");
 builder.Services.AddDbContext<ApplicationContext>(x => x.UseSqlServer(connectionString));
+
+IMapper mapper = MappingConfiguration.RegisterMaps().CreateMapper();
+builder.Services.AddSingleton(mapper);
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddScoped<ITeachersRepository, TeacherRepository>();
+
 
 var app = builder.Build();
 
