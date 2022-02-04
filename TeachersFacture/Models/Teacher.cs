@@ -19,6 +19,7 @@ namespace TeachersFacture.Models
         public int RateHour { get; set; }
         [Required]
         public int RolId { get; set; }
-        public List<Course> Courses { get; set; }
+        public ICollection<Course> Courses { get; set; }
+        public List<TeacherCourse> TeacherCourses { get; set; }
     }
 }

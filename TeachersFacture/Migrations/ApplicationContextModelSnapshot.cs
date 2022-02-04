@@ -35,44 +35,7 @@ namespace TeachersFacture.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Course");
-                });
-
-            modelBuilder.Entity("TeachersFacture.Models.Lesson", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("Cost")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CourseIdId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Date")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DictatedHours")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TeacherIdId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CourseIdId");
-
-                    b.HasIndex("TeacherIdId");
-
-                    b.ToTable("Lesson");
+                    b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("TeachersFacture.Models.Rol", b =>
@@ -90,6 +53,18 @@ namespace TeachersFacture.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Rols");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Planta"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Invitado"
+                        });
                 });
 
             modelBuilder.Entity("TeachersFacture.Models.Teacher", b =>
@@ -133,23 +108,33 @@ namespace TeachersFacture.Migrations
                     b.ToTable("TeachersInfo");
                 });
 
-            modelBuilder.Entity("TeachersFacture.Models.Lesson", b =>
+            modelBuilder.Entity("TeachersFacture.Models.TeacherCourse", b =>
                 {
-                    b.HasOne("TeachersFacture.Models.Course", "CourseId")
-                        .WithMany("Lessons")
-                        .HasForeignKey("CourseIdId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("TeacherId")
+                        .HasColumnType("int");
 
-                    b.HasOne("TeachersFacture.Models.Teacher", "TeacherId")
-                        .WithMany("Lessons")
-                        .HasForeignKey("TeacherIdId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
 
-                    b.Navigation("CourseId");
+                    b.Property<int>("Cost")
+                        .HasColumnType("int");
 
-                    b.Navigation("TeacherId");
+                    b.Property<string>("Date")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DictatedHours")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("TeacherId", "CourseId");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("TeacherCourse");
                 });
 
             modelBuilder.Entity("TeachersFacture.Models.Teacher", b =>
@@ -161,9 +146,28 @@ namespace TeachersFacture.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TeachersFacture.Models.TeacherCourse", b =>
+                {
+                    b.HasOne("TeachersFacture.Models.Course", "Courses")
+                        .WithMany("TeacherCourses")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TeachersFacture.Models.Teacher", "Teachers")
+                        .WithMany("TeacherCourses")
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Courses");
+
+                    b.Navigation("Teachers");
+                });
+
             modelBuilder.Entity("TeachersFacture.Models.Course", b =>
                 {
-                    b.Navigation("Lessons");
+                    b.Navigation("TeacherCourses");
                 });
 
             modelBuilder.Entity("TeachersFacture.Models.Rol", b =>
@@ -173,7 +177,7 @@ namespace TeachersFacture.Migrations
 
             modelBuilder.Entity("TeachersFacture.Models.Teacher", b =>
                 {
-                    b.Navigation("Lessons");
+                    b.Navigation("TeacherCourses");
                 });
 #pragma warning restore 612, 618
         }

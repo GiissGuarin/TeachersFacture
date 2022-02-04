@@ -15,24 +15,23 @@ namespace TeachersFacture.DataContexts
 
             modelbuilder.Entity<Rol>().HasData(new Rol[] { Rol1, Rol2 });
 
-            //modelbuilder.Entity<Teacher>()
-            //    .HasMany(c => c.Courses)
-            //    .WithMany(t => t.Teachers)
-            //    .UsingEntity<TeacherCourse>(
-            //    ls => ls.HasOne(prop => prop.Courses)
-            //    .WithMany()
-            //    .HasForeignKey(c => c.CourseId),
-            //    lss => lss.HasOne(prop => prop.Teachers)
-            //    .WithMany()
-            //    .HasForeignKey(pr => pr.TeacherId),
-            //    ls =>
-            //    {
-            //        ls.HasKey(prop => new { prop.TeacherId, prop.CourseId });
-            //    }
+            modelbuilder.Entity<Teacher>()
+                .HasMany(c => c.Courses)
+                .WithMany(t => t.Teachers)
+                .UsingEntity<TeacherCourse>(
+                ls => ls.HasOne(prop => prop.Courses)
+                .WithMany(t => t.TeacherCourses)
+                .HasForeignKey(c => c.CourseId),
+                lss => lss.HasOne(prop => prop.Teachers)
+                .WithMany(t => t.TeacherCourses)
+                .HasForeignKey(pr => pr.TeacherId),
+                ls =>
+                {
+                    ls.HasKey(prop => new { prop.TeacherId, prop.CourseId });
+                }
 
-            //    );
+                );
 
-            modelbuilder.Entity<TeacherCourse>().HasKey(x => new { x.TeacherId, x.CourseId });
 
             base.OnModelCreating(modelbuilder);
         }
@@ -40,7 +39,7 @@ namespace TeachersFacture.DataContexts
         public DbSet<Teacher> TeachersInfo { get; set; }
         public DbSet<Rol> Rols { get; set; }
         public DbSet<Course> Courses { get; set; }
-        public DbSet<TeacherCourse> TeacherCourses { get; set; }
+        //public DbSet<TeacherCourse> TeacherCourses { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
