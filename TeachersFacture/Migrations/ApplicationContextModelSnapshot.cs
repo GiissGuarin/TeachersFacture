@@ -9,8 +9,8 @@ using TeachersFacture.DataContexts;
 
 namespace TeachersFacture.Migrations
 {
-    [DbContext(typeof(TeacherContext))]
-    partial class TeacherContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(ApplicationContext))]
+    partial class ApplicationContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,23 @@ namespace TeachersFacture.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("TeachersFacture.Models.Rol", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Rols");
+                });
 
             modelBuilder.Entity("TeachersFacture.Models.Teacher", b =>
                 {
@@ -48,13 +65,32 @@ namespace TeachersFacture.Migrations
                     b.Property<int>("RateHour")
                         .HasColumnType("int");
 
+                    b.Property<int>("RolId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("RolId");
+
                     b.ToTable("TeachersInfo");
+                });
+
+            modelBuilder.Entity("TeachersFacture.Models.Teacher", b =>
+                {
+                    b.HasOne("TeachersFacture.Models.Rol", null)
+                        .WithMany("Teachers")
+                        .HasForeignKey("RolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TeachersFacture.Models.Rol", b =>
+                {
+                    b.Navigation("Teachers");
                 });
 #pragma warning restore 612, 618
         }

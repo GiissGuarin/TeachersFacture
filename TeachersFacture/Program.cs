@@ -12,7 +12,7 @@ builder.Services.AddSwaggerGen();
 
 
 var connectionString = builder.Configuration.GetConnectionString("ConexionTest");
-builder.Services.AddDbContext<TeacherContext>(x => x.UseSqlServer(connectionString));
+builder.Services.AddDbContext<ApplicationContext>(x => x.UseSqlServer(connectionString));
 
 var app = builder.Build();
 

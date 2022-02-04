@@ -3,13 +3,14 @@ using TeachersFacture.Models;
 
 namespace TeachersFacture.DataContexts
 {
-    public class TeacherContext : DbContext
+    public class ApplicationContext : DbContext
     {
-        public TeacherContext(DbContextOptions<TeacherContext> options): base(options)
+        public ApplicationContext(DbContextOptions<ApplicationContext> options): base(options)
         {
         }
 
         public DbSet<Teacher> TeachersInfo { get; set; }
+        public DbSet<Rol> Rols { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

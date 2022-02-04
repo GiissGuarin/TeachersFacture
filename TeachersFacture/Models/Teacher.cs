@@ -14,5 +14,6 @@ namespace TeachersFacture.Models
         public string MoneyPay { get; set; }
         [Required]
         public int RateHour { get; set; }
+        public int RolId { get; set; }
     }
 }
