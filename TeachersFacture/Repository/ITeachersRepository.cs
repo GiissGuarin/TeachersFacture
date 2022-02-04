@@ -6,7 +6,7 @@ namespace TeachersFacture.Repository
     public interface ITeachersRepository
     {
         Task<List<TeacherDTO>> GetTeachers();
-        Task<TeacherDTO> GetTeachersById(int id);
+        Task<TeacherDTO> GetById(int id);
         Task<TeacherDTO> CreateUpdate(TeacherDTO teacherDTO);
         Task<bool> Delete(int id);
         Task<bool> TeacherExist(string idNumber);

@@ -61,7 +61,7 @@ namespace TeachersFacture.Repository
             return _mapper.Map<List<TeacherDTO>>(lista);
         }
 
-        public async Task<TeacherDTO> GetTeachersById(int id)
+        public async Task<TeacherDTO> GetById(int id)
         {
             Teacher teacher = await _db.TeachersInfo.FindAsync(id);
 

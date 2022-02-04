@@ -12,6 +12,8 @@ namespace TeachersFacture
             {
                 config.CreateMap<TeacherDTO, Teacher>();
                 config.CreateMap<Teacher, TeacherDTO>();
+                config.CreateMap<TeacherCourse, TeacherCourseDTO>();
+                config.CreateMap<TeacherCourseDTO, TeacherCourse>();
             });
             return mappingConfig;
         }

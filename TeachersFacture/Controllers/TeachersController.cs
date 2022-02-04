@@ -42,7 +42,7 @@ namespace TeachersFacture.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Teacher>> GetTeacherInfo(int id)
         {
-            var teacher = await _teachersRepository.GetTeachersById(id);
+            var teacher = await _teachersRepository.GetById(id);
 
             if(teacher == null)
             {

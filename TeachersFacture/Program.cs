@@ -23,6 +23,8 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<ITeachersRepository, TeacherRepository>();
 
+builder.Services.AddScoped<ITeacherCourseRepository, TeacherCourseRepository>();
+
 
 var app = builder.Build();
 

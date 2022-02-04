@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TeachersFacture.DataContexts;
 
@@ -10,9 +11,10 @@ using TeachersFacture.DataContexts;
 namespace TeachersFacture.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20220204222232_addCourses")]
+    partial class addCourses
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,7 +37,7 @@ namespace TeachersFacture.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Courses", (string)null);
+                    b.ToTable("Courses");
 
                     b.HasData(
                         new
@@ -69,7 +71,7 @@ namespace TeachersFacture.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Rols", (string)null);
+                    b.ToTable("Rols");
 
                     b.HasData(
                         new
@@ -122,7 +124,7 @@ namespace TeachersFacture.Migrations
 
                     b.HasIndex("RolId");
 
-                    b.ToTable("TeachersInfo", (string)null);
+                    b.ToTable("TeachersInfo");
                 });
 
             modelBuilder.Entity("TeachersFacture.Models.TeacherCourse", b =>
@@ -151,7 +153,7 @@ namespace TeachersFacture.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("TeacherCourses", (string)null);
+                    b.ToTable("TeacherCourses");
                 });
 
             modelBuilder.Entity("TeachersFacture.Models.Teacher", b =>
