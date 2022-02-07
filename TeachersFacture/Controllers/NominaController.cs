@@ -20,18 +20,27 @@ namespace TeachersFacture.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GenerateNomina(int Month)
+        [Route("GenerateNomina")]
+        public async Task<ActionResult> GenerateNomina(DateTime DateNomina)
         {
-            var lessons = await _repository.GetByMonth(Month);
+            var lessons = await _repository.GetByMonth(DateNomina);
 
             if(lessons == null)
             {
                 _response.IsSuccess = false;
-                _response.DisplayMessage = "No hay lecciones registrada en el mes";
+                _response.DisplayMessage = "No hay lecciones registrada en el mes seleccionado";
                 return NotFound(_response);
             }
+            double totalAcumulated = 0;
+            lessons.ForEach(async x =>
+            {
+                x.CostInCOP = await _repository.CalculateCost(x.MoneyPay, x.Cost);
+                totalAcumulated += x.CostInCOP;
 
-            return Ok(lessons);
+            });
+        
+
+            return Ok(new { lessons, totalAcumulated });
             
 
         }
