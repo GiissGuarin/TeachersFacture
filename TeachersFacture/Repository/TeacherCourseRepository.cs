@@ -9,23 +9,13 @@ namespace TeachersFacture.Repository
     public class TeacherCourseRepository : ITeacherCourseRepository
     {
         private readonly ApplicationContext _db;
-        private readonly IExchangeRepository _exchangeRepository;
         private IMapper _mapper;
 
-        public TeacherCourseRepository(ApplicationContext db, IMapper mapper, IExchangeRepository exchangeRepository )
+        public TeacherCourseRepository(ApplicationContext db, IMapper mapper )
         {
             _db = db;   
-            _exchangeRepository = exchangeRepository;  
             _mapper = mapper;   
                     
-        }
-
-        public async Task<double> CalculateCost(TeacherDTO Teacher,int LessonHours)
-        {
-            ExchangeDTO exchange = await _exchangeRepository.GetByMoney(Teacher.MoneyPay);
-            var conversion = Teacher.RateHour * exchange.conversion_rates.COP;
-            var costInCOP = LessonHours * conversion; 
-            return costInCOP;
         }
 
         public async Task<TeacherCourseDTO> Create(TeacherCourseDTO TeacherCourseDTO)
@@ -61,6 +51,7 @@ namespace TeachersFacture.Repository
             return _mapper.Map<List<TeacherCourseDTO>>(lesson);
         }
 
+     
 
     }
 }

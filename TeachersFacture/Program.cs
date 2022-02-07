@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using TeachersFacture;
 using TeachersFacture.DataContexts;
+using TeachersFacture.Interfaces;
 using TeachersFacture.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +25,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<ITeachersRepository, TeacherRepository>();
 builder.Services.AddScoped<ITeacherCourseRepository, TeacherCourseRepository>();
 builder.Services.AddScoped<IExchangeRepository, ExchangeRepository>();
+builder.Services.AddScoped<INominaRepository, NominaRepository>();
 
 
 var app = builder.Build();

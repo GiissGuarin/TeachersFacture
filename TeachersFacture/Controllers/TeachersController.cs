@@ -15,6 +15,7 @@ namespace TeachersFacture.Controllers
         private readonly ITeachersRepository _teachersRepository;
         private readonly IExchangeRepository _exchangeRepository;
         protected ResponseDTO _response;
+        private string COLOMBIA_MONEY = "COP";
 
         public TeachersController(ITeachersRepository teachersRepository, IExchangeRepository exchangeRepository)
         {
@@ -24,7 +25,8 @@ namespace TeachersFacture.Controllers
 
         }
 
-        [HttpGet]   
+        [HttpGet]
+      
         public async Task<ActionResult<IEnumerable<Teacher>>> GetTeachersInfo()
         {
             try
@@ -42,6 +44,7 @@ namespace TeachersFacture.Controllers
         }
 
         [HttpGet("{id}")]
+    
         public async Task<ActionResult<Teacher>> GetTeacherInfo(int id)
         {
             var teacher = await _teachersRepository.GetById(id);
@@ -59,15 +62,16 @@ namespace TeachersFacture.Controllers
         }
 
         [HttpPost]
+     
         public async Task<ActionResult> PostTeachersInfo(TeacherDTO teacherDTO)
         {
 
             try
             {
-                if(teacherDTO.RolId == 1 && teacherDTO.MoneyPay != "COP")
+                if(teacherDTO.RolId == 1 && teacherDTO.MoneyPay != COLOMBIA_MONEY)
                 {
                     _response.IsSuccess = false;
-                    _response.DisplayMessage = "La moneda para los profesores de planta debe ser peso Colombiano (COP)";
+                    _response.DisplayMessage = $"La moneda para los profesores de planta debe ser peso Colombiano ({COLOMBIA_MONEY})";
                     return BadRequest(_response);
 
                 }
@@ -78,7 +82,7 @@ namespace TeachersFacture.Controllers
                     if (exchange == null || exchange.conversion_rates.COP == 0)
                     {
                         _response.IsSuccess = false;
-                        _response.DisplayMessage = "La moneda ingresada no posee equivalencia al peso Colombiano (COP)";
+                        _response.DisplayMessage = $"La moneda ingresada no posee equivalencia al peso Colombiano ({COLOMBIA_MONEY})";
                         return BadRequest(_response);
                     }
 
@@ -107,51 +111,5 @@ namespace TeachersFacture.Controllers
           
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> PutTeacher(int id, TeacherDTO teacherDTO)
-        {
-            try
-            {
-                TeacherDTO model = await _teachersRepository.CreateUpdate(teacherDTO);
-                _response.Result=model;
-                return Ok(_response);
-            }catch (Exception ex)
-            {
-                _response.IsSuccess = false;
-                _response.DisplayMessage = "Error al actualizar la información del profesor";
-                _response.ErrorMessage = ex.Message;
-                return BadRequest(_response);
-            }
-        }
-
-
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteTeacher(int id)
-        {
-            try
-            {
-               bool statusDelete= await _teachersRepository.Delete(id); 
-                if (statusDelete)
-                {
-                    _response.Result = statusDelete;
-                    _response.DisplayMessage = "Profesor eliminado con éxito";
-                    return Ok(_response);
-                }
-                else
-                {
-                    _response.IsSuccess=false;
-                    _response.DisplayMessage = "Error al eliminar al profesor";
-                    return BadRequest(_response);
-
-                }
-            }catch (Exception ex)
-            {
-                _response.IsSuccess = false;
-                _response.DisplayMessage = "Error al eliminar al profesor";
-                _response.ErrorMessage=ex.Message;
-                return BadRequest(_response);
-            }
-
-        }
     }
 }

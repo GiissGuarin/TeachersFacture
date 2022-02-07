@@ -6,7 +6,7 @@ using TeachersFacture.Repository;
 
 namespace TeachersFacture.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Lesson")]
     [ApiController]
     public class LessonsController : ControllerBase
     {
@@ -14,6 +14,9 @@ namespace TeachersFacture.Controllers
         private readonly ITeachersRepository _teachersRepository;
    
         protected ResponseDTO _response;
+
+        private int MaxHours = 160;
+        private int MaxHourPerCourse = 20;
 
         public LessonsController(ITeacherCourseRepository teachersCourseRepository, ITeachersRepository teachersRepository)   
         {
@@ -26,14 +29,13 @@ namespace TeachersFacture.Controllers
         [HttpPost]
         public async Task<ActionResult> PostLesson(TeacherCourseDTO Lesson)
         {
-            int MaxHours = 160;
-            int MaxHourPerCourse = 20;
+            
             Console.WriteLine(Lesson.ToString());
 
             try
             {
                 var LessonsByTeacher = await _teachersCourseRepository.GetByTeacherID(Lesson.TeacherId);
-                int acumulatedHours = 0;
+                int acumulatedHours = Lesson.DictatedHours;
                 LessonsByTeacher.ForEach(lesson =>
                 {
                     acumulatedHours += lesson.DictatedHours;
@@ -47,7 +49,7 @@ namespace TeachersFacture.Controllers
                 }
 
                 var LessonByTeacherAndCourse = await _teachersCourseRepository.GetByTwoID(Lesson.TeacherId, Lesson.CourseId);
-                int acumulatedHoursPerCourse = 0;
+                int acumulatedHoursPerCourse = Lesson.DictatedHours;
 
                 LessonByTeacherAndCourse.ForEach(lesson =>
                 {
@@ -69,7 +71,7 @@ namespace TeachersFacture.Controllers
                     return BadRequest(_response);
                 }
 
-                Lesson.Cost = await _teachersCourseRepository.CalculateCost(teacher, Lesson.DictatedHours);
+                Lesson.Cost = teacher.RateHour * Lesson.DictatedHours;
 
                 TeacherCourseDTO model = await _teachersCourseRepository.Create(Lesson);
                 _response.Result = model;
