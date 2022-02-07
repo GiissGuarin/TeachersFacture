@@ -10,7 +10,7 @@
       
         public string Surname { get; set; }
        
-        public string BirthDate { get; set; }
+        public DateTime BirthDate { get; set; }
     
         public string MoneyPay { get; set; }
      

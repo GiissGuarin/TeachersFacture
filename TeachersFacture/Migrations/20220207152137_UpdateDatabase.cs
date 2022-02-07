@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace TeachersFacture.Migrations
 {
-    public partial class createAllTables : Migration
+    public partial class UpdateDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -43,7 +44,7 @@ namespace TeachersFacture.Migrations
                     IdentifyNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BirthDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MoneyPay = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RateHour = table.Column<int>(type: "int", nullable: false),
                     RolId = table.Column<int>(type: "int", nullable: false)
@@ -60,27 +61,28 @@ namespace TeachersFacture.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TeacherCourse",
+                name: "TeacherCourses",
                 columns: table => new
                 {
-                    TeacherId = table.Column<int>(type: "int", nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Date = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DictatedHours = table.Column<int>(type: "int", nullable: false),
-                    Cost = table.Column<int>(type: "int", nullable: false)
+                    Cost = table.Column<int>(type: "int", nullable: false),
+                    TeacherId = table.Column<int>(type: "int", nullable: false),
+                    CourseId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TeacherCourse", x => new { x.TeacherId, x.CourseId });
+                    table.PrimaryKey("PK_TeacherCourses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TeacherCourse_Courses_CourseId",
+                        name: "FK_TeacherCourses_Courses_CourseId",
                         column: x => x.CourseId,
                         principalTable: "Courses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TeacherCourse_TeachersInfo_TeacherId",
+                        name: "FK_TeacherCourses_TeachersInfo_TeacherId",
                         column: x => x.TeacherId,
                         principalTable: "TeachersInfo",
                         principalColumn: "Id",
@@ -88,19 +90,33 @@ namespace TeachersFacture.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Rols",
+                table: "Courses",
                 columns: new[] { "Id", "Name" },
-                values: new object[] { 1, "Planta" });
+                values: new object[,]
+                {
+                    { 1, "ISIS2601" },
+                    { 2, "IMEC1021" },
+                    { 3, "IPAT5081" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Rols",
                 columns: new[] { "Id", "Name" },
-                values: new object[] { 2, "Invitado" });
+                values: new object[,]
+                {
+                    { 1, "Planta" },
+                    { 2, "Invitado" }
+                });
 
             migrationBuilder.CreateIndex(
-                name: "IX_TeacherCourse_CourseId",
-                table: "TeacherCourse",
+                name: "IX_TeacherCourses_CourseId",
+                table: "TeacherCourses",
                 column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TeacherCourses_TeacherId",
+                table: "TeacherCourses",
+                column: "TeacherId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TeachersInfo_RolId",
@@ -111,7 +127,7 @@ namespace TeachersFacture.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "TeacherCourse");
+                name: "TeacherCourses");
 
             migrationBuilder.DropTable(
                 name: "Courses");

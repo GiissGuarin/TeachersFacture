@@ -12,7 +12,7 @@ namespace TeachersFacture.Models
         [Required]
         public string Surname { get; set; }
         [Required]
-        public string BirthDate { get; set; }
+        public DateTime BirthDate { get; set; }
         [Required]
         public string MoneyPay { get; set; }
         [Required]
@@ -20,5 +20,7 @@ namespace TeachersFacture.Models
         [Required]
         public int RolId { get; set; }
         public List<TeacherCourse> TeacherCourses { get; set; }
+
+        public ICollection<Course> Courses { get; set; }
     }
 }

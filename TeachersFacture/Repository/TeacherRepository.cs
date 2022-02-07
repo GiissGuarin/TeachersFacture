@@ -77,26 +77,7 @@ namespace TeachersFacture.Repository
             return false;
         }
 
-        public async Task<Exchange> GetExchangeMoney(string money)
-        {
-            var API_KEY = "23a7f2cf6089bc8e564bc539";
-
-            var url = $"https://v6.exchangerate-api.com/v6/{API_KEY}/latest/{money}";
-            Console.WriteLine(url);
-
-            using (var httpClient = new HttpClient())
-            {
-                var response =await httpClient.GetAsync(url);
-                if (response.IsSuccessStatusCode)
-                {
-                    var content = await response.Content.ReadAsStringAsync();
-                    var moneysExchange = JsonSerializer.Deserialize<Exchange>(content);
-                    return moneysExchange;
-                }
-                return null;
-               
-            }
-        }
+       
     }
 
 

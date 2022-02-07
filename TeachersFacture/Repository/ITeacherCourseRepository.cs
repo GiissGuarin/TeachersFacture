@@ -4,8 +4,9 @@ namespace TeachersFacture.Repository
 {
     public interface ITeacherCourseRepository
     {
-        Task<TeacherCourseDTO> GetByTeacherID(int TeacherId);
-        Task<TeacherCourseDTO> GetByCourseID(int CourseId);
+        Task<List<TeacherCourseDTO>> GetByTeacherID(int TeacherId);
+        Task<List<TeacherCourseDTO>> GetByTwoID(int TeacherId,int CourseId);
         Task<TeacherCourseDTO> Create(TeacherCourseDTO TeacherCourseDTO);
+        Task<double> CalculateCost(TeacherDTO TeacherDTO, int LessonHours);
     }
 }

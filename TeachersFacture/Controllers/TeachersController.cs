@@ -13,11 +13,13 @@ namespace TeachersFacture.Controllers
     public class TeachersController : ControllerBase
     {
         private readonly ITeachersRepository _teachersRepository;
+        private readonly IExchangeRepository _exchangeRepository;
         protected ResponseDTO _response;
 
-        public TeachersController(ITeachersRepository teachersRepository)
+        public TeachersController(ITeachersRepository teachersRepository, IExchangeRepository exchangeRepository)
         {
             _teachersRepository=teachersRepository;
+            _exchangeRepository=exchangeRepository; 
             _response=new ResponseDTO();
 
         }
@@ -72,7 +74,7 @@ namespace TeachersFacture.Controllers
 
                 if (teacherDTO.RolId == 2)
                 {
-                    Exchange exchange = await _teachersRepository.GetExchangeMoney(teacherDTO.MoneyPay);
+                    ExchangeDTO exchange = await _exchangeRepository.GetByMoney(teacherDTO.MoneyPay);
                     if (exchange == null || exchange.conversion_rates.COP == 0)
                     {
                         _response.IsSuccess = false;
@@ -93,7 +95,8 @@ namespace TeachersFacture.Controllers
 
                 TeacherDTO model = await _teachersRepository.CreateUpdate(teacherDTO);
                 _response.Result = model;
-                return CreatedAtAction(nameof(GetTeacherInfo), new { id = model.Id }, model);
+                _response.DisplayMessage = "El profesor fue creado exitosamente";
+                return Ok(_response);
             }catch (Exception ex)
             {
                 _response.IsSuccess = false;

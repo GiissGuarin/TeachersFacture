@@ -32,12 +32,7 @@ namespace TeachersFacture.DataContexts
                 .HasForeignKey(c => c.CourseId),
                 lss => lss.HasOne(prop => prop.Teachers)
                 .WithMany(t => t.TeacherCourses)
-                .HasForeignKey(pr => pr.TeacherId),
-                ls =>
-                {
-                    ls.HasKey(prop => new { prop.TeacherId, prop.CourseId });
-                }
-
+                .HasForeignKey(pr => pr.TeacherId)
                 );
 
 

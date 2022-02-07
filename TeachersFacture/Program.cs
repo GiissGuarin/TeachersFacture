@@ -22,8 +22,8 @@ builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<ITeachersRepository, TeacherRepository>();
-
 builder.Services.AddScoped<ITeacherCourseRepository, TeacherCourseRepository>();
+builder.Services.AddScoped<IExchangeRepository, ExchangeRepository>();
 
 
 var app = builder.Build();

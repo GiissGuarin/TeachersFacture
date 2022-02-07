@@ -10,7 +10,6 @@ namespace TeachersFacture.Repository
         Task<TeacherDTO> CreateUpdate(TeacherDTO teacherDTO);
         Task<bool> Delete(int id);
         Task<bool> TeacherExist(string idNumber);
-        Task<Exchange> GetExchangeMoney(string money);
 
     }
 }

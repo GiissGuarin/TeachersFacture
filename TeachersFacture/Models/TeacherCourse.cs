@@ -4,12 +4,13 @@ namespace TeachersFacture.Models
 {
     public class TeacherCourse
     {
-        public string Name { get; set; }
+        public int Id { get; set; }
         [Required]
-        public string Date { get; set; }
+        public DateTime Date { get; set; }
         [Required]
         public int DictatedHours { get; set; }
-        public int Cost { get; set; }
+        public double Cost { get; set; }
+        [Required]
         public int TeacherId { get; set; }
         public Teacher Teachers { get; set; }
         [Required]
