@@ -13,9 +13,9 @@ namespace TeachersFacture.Controllers
         protected ResponseDTO _response;
         private readonly ICourseRepository _courseRepository;
 
-        public CourseController(ResponseDTO response, ICourseRepository courseRepository)
+        public CourseController( ICourseRepository courseRepository)
         {
-            _response = response;
+            _response = new ResponseDTO();
             _courseRepository = courseRepository;
         }
 
