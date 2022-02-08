@@ -26,7 +26,7 @@ namespace TeachersFacture.Controllers
         }
 
         [HttpGet]
-      
+        [Route("GetTeachersList")]
         public async Task<ActionResult<IEnumerable<Teacher>>> GetTeachersInfo()
         {
             try
@@ -44,7 +44,7 @@ namespace TeachersFacture.Controllers
         }
 
         [HttpGet("{id}")]
-    
+
         public async Task<ActionResult<Teacher>> GetTeacherInfo(int id)
         {
             var teacher = await _teachersRepository.GetById(id);
@@ -62,7 +62,7 @@ namespace TeachersFacture.Controllers
         }
 
         [HttpPost]
-     
+        [Route("CreateTeacher")]
         public async Task<ActionResult> PostTeachersInfo(TeacherDTO teacherDTO)
         {
 

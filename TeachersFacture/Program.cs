@@ -26,6 +26,7 @@ builder.Services.AddScoped<ITeachersRepository, TeacherRepository>();
 builder.Services.AddScoped<ITeacherCourseRepository, TeacherCourseRepository>();
 builder.Services.AddScoped<IExchangeRepository, ExchangeRepository>();
 builder.Services.AddScoped<INominaRepository, NominaRepository>();
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 
 
 var app = builder.Build();

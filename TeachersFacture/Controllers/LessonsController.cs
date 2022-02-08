@@ -26,7 +26,34 @@ namespace TeachersFacture.Controllers
  
         }
 
+        [HttpGet]
+        [Route("GetLessonsByIdentification")]
+        public async Task<ActionResult> GetLessonById(string IdNumber)
+        {
+            var Teacher = await _teachersRepository.GetByTeacherIdNumber(IdNumber);
+            if(Teacher == null)
+            {
+                _response.IsSuccess = false;
+                _response.DisplayMessage = "El número de identificación no se encuentra registrado";
+                return NotFound(_response);
+            }
+            var lessons = _teachersCourseRepository.GetByTeacherID(Teacher.Id);
+            if(lessons == null)
+            {
+                _response.IsSuccess = false;
+                _response.DisplayMessage = "El número de identificación no posee lecciones registradas";
+                return NotFound(_response);
+            }
+            _response.Result = lessons.Result;
+            _response.DisplayMessage = $"Listado de Lecciones del profesor {Teacher.Name}";
+
+            return Ok(_response); 
+
+        }
+
+
         [HttpPost]
+        [Route("CreateLesson")]
         public async Task<ActionResult> PostLesson(TeacherCourseDTO Lesson)
         {
             

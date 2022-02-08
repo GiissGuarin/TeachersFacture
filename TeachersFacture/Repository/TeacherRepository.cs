@@ -77,7 +77,14 @@ namespace TeachersFacture.Repository
             return false;
         }
 
-       
+        public async Task<TeacherDTO> GetByTeacherIdNumber(string idNumber)
+        {
+          var teacher = _db.TeachersInfo.Where(x => x.IdentifyNumber == idNumber).FirstOrDefault();
+            return _mapper.Map<TeacherDTO>(teacher);
+
+        }
+
+
     }
 
 

@@ -19,11 +19,13 @@ namespace TeachersFacture.Controllers
             _response = new ResponseDTO();
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("GenerateNomina")]
-        public async Task<ActionResult> GenerateNomina(DateTime DateNomina)
+        public async Task<ActionResult> GenerateNomina(string DateNomina)
         {
-            var lessons = await _repository.GetByMonth(DateNomina);
+            var date = DateTime.Parse(DateNomina);
+        
+            var lessons = await _repository.GetByMonth(date);
 
             if(lessons == null)
             {
