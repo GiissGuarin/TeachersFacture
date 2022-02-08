@@ -7,7 +7,7 @@ Prueba para desarrollador Back-end Fullstack en Facture SAS
 
 Para realizar la instalación del proyecto, debe contar con los siguientes programas
 
-* [Visual Studio 2022 ](https://visualstudio.microsoft.com/es/vs/community/)
+* [Visual Studio 2022 ](https://visualstudio.microsoft.com/es/vs/community/) - IDE
 * [SQL Server](https://www.microsoft.com/es-es/sql-server/sql-server-downloads) - Motor de Base de datos
 
 Iniciamos el Visual Studio y clonamos el repositorio de github 
